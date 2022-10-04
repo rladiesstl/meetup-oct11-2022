@@ -1,0 +1,83 @@
+---
+title: "Welcome to R-Ladies St. Louis"
+subtitle: "Wrangling Data in the Tidyverse"
+date: "October 11, 2022"
+format: rladies-revealjs
+self-contained: true
+---
+
+# Materials for tonight
+
+-   All materials can be found here: <https://github.com/rladiesstl/meetup-oct11-2022>
+
+-   Have R and RStudio installed on your computer
+
+# What is R-Ladies? {.smaller}
+
+-   R-Ladies is a world-wide organization with the mission of promoting **gender diversity in the R community**
+
+-   Started in San Francisco in 2012 and now has **206 chapters and more than 93,000** members globally (check out rladies.org for a Shiny dashboard)
+
+![](img/rladies2022.jpg){fig-align="center"}
+
+# R-Ladies St. Louis
+
+Started in September 2017 by Jenine Harris and Chelsea West
+
+![](img/mermaid-diagram.PNG){width="100" fig-align="center"}
+
+Co-organizers for **`2022-23`** include:
+
+-   Jenine Harris (Washington University)\
+-   Mary Painter (University of Colorado, Boulder)\
+-   Shelly Cooper (Washington University)\
+-   Crystal Lewis (Freelance Data Management Consultant)\
+-   Laura Rose (Hinge Health)
+
+# 2022 Fall Schedule
+
+Each week in October we will be featuring an Introductory R topic during our OctobeR ExtRavaganza
+
+-   `Last Week:` Wrangling Data in the Tidyverse with **Joscelin Rocha-Hidalgo** (Penn State)
+-   **`TONIGHT:`** Intro to Iteration: for loops and functions with **Merve Ileri Tayar** (Washington University)
+-   **`Monday Oct.17:`** Clinical reporting with gtsummary with **Daniel Sjoberg** (Memorial Sloan Kettering Cancer Center)
+-   **`Thursday Oct.27:`** Intro to Quarto with **Isabella Velasquez** (Posit)
+
+# Announcements
+
+-   We will be recording this talk
+
+    -   Feel free to turn off your cameras if you do not want to be recorded
+
+-   Use the chat to ask questions (to everyone **or** directly to the host)
+
+<br>
+
+::: announce
+https://rladies.org/code-of-conduct/
+:::
+
+# Want to learn more or get involved?
+
+Visit **rladies.org** to learn about the mission and global work of R-Ladies
+
+::: {layout-ncol="2"}
+::: {.column width="80%"}
+-   Connect with R-Ladies St. Louis
+    -   Email us at [rladiesstl\@gmail.com](mailto:rladiesstl@gmail.com)
+    -   Follow us on Twitter [\@rladiesstl](https://twitter.com/RLadiesSTL)
+    -   RSVP for future talks on [Meetup](https://www.meetup.com/R-Ladies-St-Louis/)
+    -   Check out past recorded talks on our [YouTube Channel](https://www.youtube.com/channel/UCQ7DcXWJm3es06U7lGmBDkw/featured)
+:::
+
+::: {.column width="20%"}
+![](https://media.giphy.com/media/3o7abBphHJngINCHio/giphy.gif){width="55%"}
+:::
+:::
+
+# About tonight's speaker
+
+-   Merve (she/her) is a doctoral student in the Brain, Behavior, and Cognition program in the Psychological & Brain Sciences Department at Washington University in St. Louis. 
+
+- Her research mainly focuses on learning and transfer of attentional control settings, the influence of global and local expectations on the adjustment of attention, and multiple levels of cognitive control.
+
