@@ -1,0 +1,957 @@
+---
+title: "intro to iteration"
+author: "Merve Ileri Tayar"
+date: "10/7/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T)
+```
+
+## INTRODUCTION TO ITERATION
+
+### CONDITIONALS
+
+```{r}
+#let's define a variable first
+x <- -6
+
+if (x > 0) {
+  print("x is a positive number")
+} 
+#it did not print anything, why?
+
+```
+
+```{r}
+if (x > 0) {
+  print("x is a positive number")
+} else {
+  print("x is a negative number or zero")
+}
+
+```
+
+Note that else statement should be in the same line as the closing bracket of if. Otherwise, R will think that if statement does not have an else and will stop after the bracket.
+
+```{r}
+#let's define more conditions
+if (x > 0) {
+  print("x is a positive number")
+} else if (x == 0) {
+  print("x is zero")
+} else {
+  print("x is a negative number")
+}
+```
+
+```{r}
+#let's see how "else if" conditions are checked
+x <- 10
+
+if (x %% 2 == 0) {
+  print("x is divisible by 2")
+} else if (x %% 5 == 0) {
+  print("x is divisible by 5")
+} else {
+  print("x is not divisible by 2 nor by 5")
+} 
+```
+
+When a condition is TRUE, R ignores the rest of the conditions. It does not matter if there is another condition that would give TRUE. It is specifically important when your conditions are not mutually exclusive, and that is why the order is important when defining a procedure.
+
+```{r}
+#let's do another example
+today <- Sys.Date() #pull the date from the system clock
+day <- weekdays(today) #what day of the week it is
+
+#you can have conditions as complex as you wish
+if ((day == "Saturday") | (day == "Sunday")) { 
+  print("Yay!")
+} else {
+  print("Oh no!") 
+}
+```
+
+```{r}
+#we can add multiple else statements
+#it will check the first else if, and execute that if the condition is TRUE,
+#if the condition is FALSE, it will continue to check the next else if, and so on.
+z <- 4
+if (z > 20) {
+  print (paste(z, "is greater than 20"))
+} else if (z > 10) {
+  print (paste(z, "is greater than 10"))
+} else if (z > 5)  {
+  print (paste(z, "is greater than 5"))
+} else {
+  print (paste(z, "is less than 5"))
+}
+```
+
+Let's look at a short vectorized version of if-else statements:
+
+ifelse(test, yes, no)
+
+```{r}
+grades <- c("s1"=80, "s2"=43, "s3"=62, "s4"=94)
+ifelse(grades < 60, "FAIL", "PASS") #check if the grade is a pass or fail
+```
+
+### NESTED CONDITIONALS
+
+```{r}
+#let's define x and y
+x <- 4
+y <- "red"
+```
+
+We can nest if and else statements into other if-else statements. It will execute the code step by step by checking the conditions. Usage of {} are highly important, they define the borders of the statements.
+
+```{r}
+if (x==4){
+  if (y=="red") {
+    print ("x is 4 and y is red") 
+  } else {
+    print("x is 4 and y is not red")
+  }
+} else {
+  if (y=="red") {
+    print("x is not 4 and y is red")
+  } else {
+    print("x is not 4 and y is not red")
+  } 
+}
+```
+
+#### Exercise 1
+
+```{r}
+# take a number from the user as input
+num <- as.integer(readline(prompt="Enter a number: "))
+```
+
+Find out whether the number is even or odd.
+
+```{r}
+if(num %% 2 == 0) {
+  print(paste(num, "is even"))
+} else {
+  print(paste(num, "is odd"))
+}
+```
+
+```{r}
+#let's try another version
+ifelse(num %% 2 == 0,"even","odd") #check if the number is even or odd
+```
+
+### The For Loop
+
+```{r}
+#print the word "R-Ladies" three times, and then stop
+for (i in 1:3) {
+  print( "R-Ladies" )
+}
+
+#note that we did not need to use the variable i in the statement
+
+```
+
+```{r}
+#print the t for 1:4 vector
+for (t in 1:4) {
+  print(t)
+}
+```
+
+```{r}
+#create fruit vector
+fruit <- c("Apple", "Orange", "Strawberry", "Banana")
+
+#create the for statement
+for ( i in fruit){ #so, we can define the vector outside of the loop
+  print(i)
+}
+```
+
+```{r}
+#another example
+for (i in 1:10) {
+  print(paste(i, " squared is ", i^2))
+}
+```
+
+Note that we did not store the variables we created, so we cannot access them after running the loop. To store a variable, we need to initialize an object. We need a variable that will become our output.
+
+```{r}
+#let's create an empty vector
+squaredNumbers <- c()
+
+for (i in 1:10) {
+  squaredNumbers <- i^2
+}
+print(squaredNumbers)
+
+#what is wrong with this code?
+```
+
+```{r}
+#create an empty vector again
+squaredNumbers <- c()
+
+for (i in 1:10) {
+  squaredNumbers[i] <- i^2 #we are populating the vector by indexing
+}
+print(squaredNumbers)
+
+```
+
+```{r}
+#let's try a different version
+#create an empty vector again
+squaredNumbers <- c()
+
+for (i in 1:10) {
+  squaredNumbers[i] <- i^2 #we are populating the vector by indexing
+  print(squaredNumbers)
+}
+
+#what is the difference of using the print() statement inside or outside the loop?
+```
+
+We are not restricted to vectors, we can iterate over several different objects:
+
+```{r}
+#create a list with three elements: one character vector, one numeric vector, one logical
+fruit <- list(Basket = c("Apple", "Orange", "Strawberry", "Banana"), Money = c(10, 12, 15), purchase = FALSE)
+
+#give me each element in the fruit list
+for (p  in fruit) { 
+  print(p)
+}
+```
+
+#### Exercise 2
+
+Find the number of odd numbers in a vector.
+
+```{r}
+#let's define a vector first
+x <- c(3,4,7,22,5,31)
+
+```
+
+```{r}
+#first, we need to initiate the counter variable
+oddNum <- 0
+
+for (i in x) {
+  if(i %% 2 == 1)  {
+    oddNum = oddNum + 1} #increase the counter when the condition is met
+}
+print(oddNum)
+```
+
+### Nested For Loops
+
+We saw that we can nest for and if statements. We can also nest for statements inside other for statements. First it will execute first for, then the second for, and so on.
+
+```{r}
+for (i in 1:3) {
+  for (j in 1:3) {
+    a <- i*j
+    print(c(i,j,a))
+  }
+}
+```
+
+Let's continue with more examples of for loop usage.
+
+You do not need to know the number of the elements in the vector. You can use the length function to define the vector length in the loop.
+
+```{r}
+myVector <- c(3,5,2,6,1)
+
+for (i in 1:length(myVector)) {
+  a <- i*i
+  print(c(i,a))
+}
+#a value is independent from the elements' identity in the myVector, 
+#it just defined the number of iterations
+```
+
+```{r}
+#for calculating a, square the value of i th element of myVector
+for (i in 1:length(myVector)) {
+  a <- myVector[i]*myVector[i]
+  print(c(i,a))
+}
+```
+
+```{r}
+#we can add a break that will end the loop
+for (i in 1:10)  {
+  if (i == 7)  {
+    print(paste("Terminating the loop since the number is", i))
+    break
+  }
+  print(paste("Value is", i))
+}
+
+```
+
+```{r}
+#we can add a next statement that will jumps to the next cycle
+for (i in 1:5) {
+  if (i == 2){
+    next
+  }
+  print(i*i)
+}
+```
+
+```{r}
+#let's try another version
+for (i in 1:5) {
+  print(i*i)
+  if (i == 2){
+    next
+  }
+}
+
+#what is wrong with this code?
+```
+
+The place of the next and break statements are important!
+
+Let's continue with another example:
+
+```{r}
+#Write a conditional statement that checks if you are eligible for scholarship
+#repeat that for the grades 350, 400, 450, 500, 550, and 600
+
+for (myGrade in seq(350, 600, 50)) {
+  if (myGrade >= 550) {
+    print(paste("Your grade is", myGrade))
+    print("You are eligible for full scholarship")
+    } else if (myGrade >= 490)  {
+      print(paste("Your grade is", myGrade))
+      print("You are eligible for 50% scholarship")
+    } else if (myGrade >= 400)  {
+      print(paste("Your grade is", myGrade))
+      print("You are eligible for 10% scholarship")
+    } else  {
+      print(paste("Your grade is", myGrade))
+      print("You are not eligible for Scholarship")
+    }
+  }
+```
+
+#### Exercise 3
+
+-   Take a number as input from the user and find the factorial of this number.
+
+-   If number is negative, print a message that says "Sorry, factorial does not exist for negative numbers".
+
+-   If number is 0, print a message that says "The factorial of 0 is 1".
+
+-   If number is greater than 0, print a message stating its factorial.
+
+-   You should think how the factorial would be defined with a for loop.
+
+```{r}
+num <- as.integer(readline(prompt="Enter a number: "))
+
+#we should initiate the factorial variable first
+factorial <- 1
+
+#check is the number is negative, positive or zero
+#if it is positive, calculate the factorial using for loop
+
+if(num < 0) {
+  print("Sorry, factorial does not exist for negative numbers")
+} else if(num == 0) {
+  print("The factorial of 0 is 1")
+} else {
+  for(i in 1:num) {
+    factorial <- factorial * i
+  }
+  print(paste("The factorial of", num ,"is", factorial))
+}
+```
+
+### WRITING FUNCTIONS
+
+```{r}
+#lets create a function which multiply the value x by 4
+quadruple <- function(x) {
+  quad <- x*4
+  return(quad)
+}
+```
+
+```{r}
+#you can see the created function in the global environment
+class(quadruple)
+
+quadruple(5)
+```
+
+```{r}
+#let's ask for quad
+print(quad)
+#it was executed in a temporary local environment, not the global environment
+
+```
+
+```{r}
+#lets create another function that takes the yth power of x
+pow <- function(x, y = 1) {
+  out <- x^y  #raise x to the power y
+  return(out)
+}
+#it has two arguments x and y
+#by typing y = 1, we defined a default value for y
+
+```
+
+```{r}
+pow(x = 3, y = 4)
+pow(2, 5) #when we do not type the argument names, it assumes the original order
+pow(3)
+#when we do not type the value of y, it uses the default value
+#but we always have to type x, because it does not have a default value
+pow(y=5)
+```
+
+Let's do another example:
+
+```{r}
+#write a function that takes the square root of a number and gives the rounded result
+#the user should define the number of digits to which the result is rounded
+
+round.sqrt <- function(x, digits=0) {
+  sqrtNum <- sqrt(x)
+  roundNum <- round(sqrtNum, digits)
+  return(roundNum)
+}
+```
+
+```{r}
+round.sqrt(5)
+round.sqrt(127,3)
+```
+
+The ... argument is a special construct in R which is only used within functions. It is used as a mechanism to allow the user to enter as many inputs as they like.
+
+```{r}
+doubleMax <- function( ... ) {
+  max.val <- max( ... ) #find the largest value in ...
+  output <- 2 * max.val #double it
+  return(output)
+}
+
+```
+
+```{r}
+#You can type in as many inputs as you like
+doubleMax(3,5,2,8,4)
+doubleMax(2,4,2,8,0,46,823,434)
+```
+
+```{r}
+#you can use if-else statements or loops in your functions
+myFun <- function(x) {
+  if (x > 0) {
+    y <- x*x*x
+    return(y)
+  } else if (x == 0) {
+    warning("Value should not be 0")
+  } else {
+    return(abs(x*x*x))
+  }
+}
+
+myFun(20)
+myFun(0)
+myFun(-10)
+```
+
+Recursive functions are functions that call itself. Let's consider factorial:
+
+5! = 5\*4\*3\*2\*1
+
+5! = 5\*4!
+
+```{r}
+recursiveFactorial <- function(x) {
+  if (x == 0) {
+    return (1)
+  } else {
+    return (x * recursiveFactorial(x-1))
+  }
+}
+
+```
+
+```{r}
+recursiveFactorial(5)
+recursiveFactorial(0)
+```
+
+Termination point is critical! When x becomes 0, we return 1 since the factorial of 0 is 1. This is the terminating condition and is very important, because without a termination point the recursion will not end and continue indefinitely.
+
+When working with large datasets, it may be inefficient because it takes a lot of memory space.
+
+#### Exercise 4
+
+-   Write a function that takes the "age" as input, and return the education level according to the age.
+
+-   If the age is below 6, it will return "preschool",
+
+-   If the age is between 6 and 14, it will return "primary school",
+
+-   If the age is between 15 and 18, it will return "high school",
+
+-   If the age is higher than 18, it will return "university".
+
+```{r}
+eduLevel <- function(x) {
+  if (x<6) {
+    return("preschool")
+  } else if (x<=14) {
+    return("primary school")
+  } else if (x<=18) {
+    return("high school")
+  } else {
+    return("university")
+  }
+}
+
+eduLevel(5)
+eduLevel(14)
+eduLevel(17)
+eduLevel(23)
+```
+
+#### Exercise 5
+
+Write a function that checks if an object is an element of a vector.
+
+```{r}
+#we already have a built-in function for this, 
+#but we want to solve this problem on our own
+1 %in% c(1,2,3,4,5)
+```
+
+```{r}
+membership <- function(data, object) {
+  for (i in 1:length(data)) {
+    if (data[i] == object) {
+      return(TRUE)
+    } else {return(FALSE)}
+  }
+}
+
+membership(c(1,2,3,4,1,2),1)
+```
+
+```{r}
+#let's see another version of this solution and see how they are different
+membership <- function(data, object) {
+  for (i in 1:length(data)) {
+    if (data[i] == object) {
+      print(TRUE)
+    } else {print(FALSE)}
+  }
+}
+
+membership(c(1,2,3,4,1,2),1)
+```
+
+Print function just prints the values you asked to print to the console. Return function only returns the final value and ends the function. After return, it does not run further. When using return, we can assign this to a value and call it later; but with print, we cannot do this.
+
+#### Exercise 6
+
+Create a function that tests if a number is odd or even.
+
+```{r}
+even_odd <- function(x) {
+    if((x %% 2) == 0){
+      result <- "even"
+    } else {
+      result <- "odd"
+    }
+  return(result)
+}
+
+even_odd(4)
+```
+
+#### Exercise 7
+
+Create a function that tests if the numbers in a given vector is odd or even.
+
+It should test it for each number in the vector one by one.
+
+```{r}
+even_odd_vector <- function(x) {
+  for (i in x) {
+  if((i %% 2) == 0){
+    result <- "even"
+    print(result)
+  } else {
+    result <- "odd"
+    print(result)
+  }
+  }
+}
+```
+
+```{r}
+even_odd_vector(4:8)
+#because we did not use return, we cannot assign this to an object
+a <- even_odd_vector(4:8)
+print(a)
+```
+
+```{r}
+#let's see if it works when we use return() instead of print()
+even_odd_vector_2 <- function(x) {
+  for (i in x) {
+    if((i %% 2) == 0){
+      result <- "even"
+      return(result)
+    } else {
+      result <- "odd"
+      return(result)
+    }
+  }
+}
+```
+
+```{r}
+even_odd_vector_2(4:8)
+#Not really. It only returns the value and ends the function. After return, it does not run further. 
+
+```
+
+We want to use return because we want to assign this output to an object. But, we also want to see the results of all iterations. How can we solve this problem?
+
+```{r}
+#Populate the result vector, and return it when the loop ends!
+even_odd_vector_3 <- function(x) {
+  result <- c()
+  for (i in 1:length(x)) {
+    if((x[i] %% 2) == 0){
+      result[i] <- "even"
+    } else {
+      result[i] <- "odd"
+    }
+  }
+  return(result)
+}
+
+even_odd_vector_3(4:8)
+```
+
+#### Exercise 8
+
+Write a function that takes a vector and an integer as input, and return how many times the integer appears inside the vector as output.
+
+```{r}
+funCount <- function (vector, x) {
+  count <- 0
+  for (i in 1:length(vector)) {
+    if (vector[i] == x) {
+      count <- count + 1
+    }
+  }
+  return(count)
+}
+
+myVector <- rep(c(10,20), 30)
+funCount(myVector, 10)
+```
+
+```{r}
+#a shorter solution
+funCount <- function (vector, x) {
+  return(length(which(myVector == x)))
+}
+
+funCount(myVector, 20)
+```
+
+```{r}
+#another solution
+funCount <- function (vector, x) {
+  return(sum(myVector == x))
+} 
+
+funCount(myVector, 5)
+funCount(myVector, 10)
+```
+
+#### Exercise 9
+
+Create a function that takes a vector, and two numbers (num1 and num2) as input.
+
+It should return the vector with the element at the position of num1 changed to NA, and the element at the position of num2 changed to 10.
+
+```{r}
+myFunction <- function(data,num1,num2) {
+  data[num1] <- NA
+  data[num2] <- 10
+  return(data)
+}
+
+myFunction(data = c(1,3,412,34,42,1,3), num1 = 2, num2 = 5)
+myFunction(1:10, 3, 8)
+```
+
+#### Exercise 10
+
+Write a function that gives the largest number in a vector.
+
+```{r}
+maxx <- function(vector) {
+  maxValue <- vector[1]
+  for (i in 1:length(vector)) {
+    if (vector[i]>maxValue) {
+      maxValue <- vector[i]
+    }
+  }
+  return(maxValue)
+}
+
+maxx(c(3,35,13,67,2))
+
+```
+
+#### Exercise 11
+
+Write a function that finds the position of the largest number in a vector.
+
+```{r}
+maxWhich <- function(vector) {
+  maxValue <- vector[1]
+  counter <- 1
+  for (i in 1:length(vector)) {
+    if (vector[i]>maxValue) {
+      maxValue <- vector[i]
+      counter <- i
+    }
+  }
+  return(counter)
+}
+
+maxWhich(c(3,35,13,67,2))
+```
+
+#### Exercise 12
+
+Create a function that replace the nth element of a vector with a given element.
+
+```{r}
+replaceNth <- function(vector, element, n) {
+  vector[n] <- element
+  return(vector)
+}
+
+replaceNth(c(1,3,4,22,3),7,4)
+```
+
+#### Exercise 13
+
+A Fibonacci series is a sequence of numbers that start from 0, 1, 1, 2, 3, and so on. After the first two numbers 0 and 1, all the rest of the Fibonacci sequence is obtained by calculating the sum of the previous two numbers. For example, the third number of the Fibonacci sequence will be 0+1=1, the fourth number will be 1+1=2, and so on. So, the nth term of a Fibonacci sequence is the sum of (n-1)th and (n-2)th number.
+
+Write a function that displays the Fibonacci sequence up to nth term. So, the user will define how many terms there will be in the sequence.
+
+For example, the user can ask for the first 6 numbers of the sequence, or the first 10 numbers...
+
+And you can create a recursive function!
+
+```{r}
+#first, we will define a function that calculates only the nth number
+fibonacciNth <- function(n) {
+  if(n <= 1) {
+    return(n)
+  } else {
+    return(fibonacciNth(n-1) + fibonacciNth(n-2))
+  }
+}
+#(note that fibonacciNth(0) gives 0)
+
+#then, we will define the function that gives the sequence
+fibonacciSequence <- function(maxN) { 
+  fsequence <- c()
+  if(maxN <= 0) {
+    print("Plese enter a positive integer")
+    } else {
+      for(i in 1:maxN) {
+        fsequence[i] <- fibonacciNth(i-1) #we want fibonnacciNth(0) as the first number in the sequence
+      }
+    }
+  return(fsequence)
+  }
+
+
+fibonacciSequence(5)
+fibonacciSequence(10)
+```
+
+## END OF THE WORKSHOP
+
+### EXTRAS
+
+#### Exercise - While Loop
+
+Find the sum of the natural numbers until a given limit (such as the sum of the natural numbers until 8)
+
+```{r}
+#let's prompt user input using readline() and save the input into a variable first
+n <- as.integer(readline(prompt = "Enter a positive number: "))
+
+#you can use while loop to iterate until the n becomes zero
+
+#we should initiate the sum first
+sum <- 0
+
+while(n > 0) {
+  sum <- sum + n
+  n <- n-1
+}
+print(paste("The sum is", sum))
+
+
+#we can add a warning to be more cautious
+n <- as.integer(readline(prompt = "Enter a positive number: "))
+
+if (n < 0) {
+  warning("You entered a negative number, please enter a positive number.")
+} else {
+  sum <- 0
+  while(n > 0) {
+    sum <- sum + n
+    n <- n-1
+  }
+  print(paste("The sum is", sum))
+}
+
+
+```
+
+#### IMPLICIT LOOPS
+
+Implicit loop functions do the same calculations simpler than the corresponding explicit loops (not faster for most of the time, but more convenient!).
+
+#### 1) apply
+
+apply(X, MARGIN, FUN)
+
+-   X: a matrix
+
+-   MARGIN: take a value or range between 1 and 2 to define where to apply the function:
+
+    -   MARGIN=1: the manipulation is performed on rows
+
+    -   MARGIN=2: the manipulation is performed on columns
+
+    -   MARGIN=c(1,2): the manipulation is performed on rows and columns
+
+-   FUN: tells which function to apply
+
+```{r}
+#create a matrix
+myMatrix <- matrix(1:10, nrow=5, ncol=6)
+print(myMatrix)
+
+#return the sum of each of the columns
+sumColumns <- apply(X = myMatrix, MARGIN = 2, FUN = sum)
+print(sumColumns)
+
+#return the median of each of the rows
+apply(myMatrix, 1, median)
+
+#perform a modulo division by 4 on each value of the matrix. 
+apply(myMatrix, 1:2, function(x) x%%4)
+
+```
+
+#### 2) lapply
+
+lapply(X, FUN)
+
+-   X: a vector or an object
+
+-   FUN: Function applied to each element of x
+
+Note 1: "l" in lapply comes from "list", the difference between lapply() and apply() is the output returned. The output of lapply() is a list.
+
+Note 2: lapply() can be used for other objects like data frames and lists, and does not need MARGIN.
+
+```{r}
+#create a vector
+movies <- c("SPIDERMAN","BATMAN","THOR","SUPERMAN")
+
+#apply tolower() function to the elements of the vector, and return the output as a list
+moviesLower <-lapply(movies, tolower)
+print(moviesLower)
+```
+
+#### 3) sapply
+
+sapply(X, FUN)
+
+-   X: a vector or an object
+
+-   FUN: Function applied to each element of x
+
+Note: It simplifies the lapply() function, sapply() does the same job as lappy() function but it returns a vector.
+
+```{r}
+#create the vector
+words <- c("just","somebody","that","I","used","to","know")
+
+#apply the nchar function to each element of the data
+sapply( X = words, FUN = nchar )
+
+#you can also do that with for loop, but you do not need to
+#sapply() function implicitly looped over the elements of words, 
+#and for each element applied the nchar() function
+
+#lets try the same job with lapply() function
+lapply( X = words, FUN = nchar )
+
+#as you can see, the output is a list and it does not contain the names of the elements
+#sapply uses the names and give the output as a vector, it makes things simpler
+```
+
+#### 4) tapply
+
+tapply(X, INDEX, FUN)
+
+-   X: an object, usually a vector
+
+-   INDEX: A list containing factor, it specifies a grouping variable
+
+-   FUN: Function applied to each element of x
+
+It applies a function for each factor variable in a vector.
+
+```{r}
+gender <- c("male","male","female","female","female","male")
+age <- c( 10,12,9,11,13,20 )
+
+#find the mean of age grouping by gender
+tapply(X = age, INDEX = gender, FUN = mean)
+
+#we can use more than 1 grouping variable
+condition <- c("1","2","1","2","2","1")
+
+#find the mean of age grouping by gender and condition
+tapply(X = age, INDEX = list(gender, condition), FUN = mean)
+```
